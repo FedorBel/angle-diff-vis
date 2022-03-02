@@ -11,12 +11,17 @@ def main():
     RADIUS = 100
 
     dot_a = (CENTER[0]+RADIUS, CENTER[1])
+    dot_a_color = (243, 79, 79)
     dot_b = (CENTER[0], CENTER[1]-RADIUS)
+    dot_b_color = (243, 243, 79)
 
     screen.fill((152, 206, 231))
     pygame.draw.circle(screen, (71, 153, 192), CENTER, RADIUS)
-    pygame.draw.circle(screen, (243, 79, 79), dot_a, 16)
-    pygame.draw.circle(screen, (243, 243, 79), dot_b, 16)
+
+    pygame.draw.circle(screen, dot_a_color, dot_a, 16)
+    pygame.draw.line(screen, dot_a_color, CENTER, dot_a, 10)
+    pygame.draw.circle(screen, dot_b_color, dot_b, 16)
+    pygame.draw.line(screen, dot_b_color, CENTER, dot_b, 10)
 
     running = True
     while running:
@@ -32,13 +37,24 @@ def main():
 
                 if distance > 0:
                     scalar = RADIUS / distance
-                    dot_a = (
-                        int(round(CENTER[0] + vector[0]*scalar)),
-                        int(round(CENTER[1] + vector[1]*scalar)))
+
+                    click_color = screen.get_at(pygame.mouse.get_pos())
+
+                    if click_color == dot_a_color:
+                        dot_a = (
+                            int(round(CENTER[0] + vector[0]*scalar)),
+                            int(round(CENTER[1] + vector[1]*scalar)))
+                    elif click_color == dot_b_color:
+                        dot_b = (
+                            int(round(CENTER[0] + vector[0]*scalar)),
+                            int(round(CENTER[1] + vector[1]*scalar)))
 
                 screen.fill((152, 206, 231))
                 pygame.draw.circle(screen, (71, 153, 192), CENTER, RADIUS)
-                pygame.draw.circle(screen, (243, 79, 79), dot_a, 16)
+                pygame.draw.circle(screen, dot_a_color, dot_a, 16)
+                pygame.draw.line(screen, dot_a_color, CENTER, dot_a, 10)
+                pygame.draw.circle(screen, dot_b_color, dot_b, 16)
+                pygame.draw.line(screen, dot_b_color, CENTER, dot_b, 10)
 
         pygame.display.update()
 
